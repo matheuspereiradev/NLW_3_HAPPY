@@ -1,19 +1,13 @@
 import React from 'react';
+import './styles/global.css'
+
+import Routes from './routes'
 
 function App() {
   return (
-    <div className="App">
-      <Nome texto="Matheus Lima"/>
-    </div>
+    <Routes/>
   );
 }
 
-interface TitleProps{
-  texto:string;
-}
-
-function Nome(props:TitleProps){
-return <h1>{props.texto}</h1>
-}
 
 export default App;
