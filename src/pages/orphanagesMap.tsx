@@ -22,7 +22,7 @@ function Orfanatos() {
     console.log(listOrfanatos)
 
     useEffect(()=>{
-        api.get('orfanatos').then(
+        api.get('/orfanatos').then(
             orfanato=>{
                setOrfanatos(orfanato.data)
             }
@@ -59,10 +59,11 @@ function Orfanatos() {
                     <Marker
                         position={[orf.latitude, orf.longitude]}
                         icon={mapIcon}
+                        key={orf.id}
                     >
                         <Popup closeButton={false} minWidth={240} maxWidth={240} className="map-popup">
                            {orf.nome}
-                    <Link to={`orfanatos/${orf.id}`}>
+                    <Link to={`/orfanatos/${orf.id}`}>
                                 <FiArrowRight size={20} color="#FFF" />
                             </Link>
                         </Popup>
