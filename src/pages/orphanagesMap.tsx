@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React,{useEffect, useState} from 'react';
 import mapMarker from '../images/map-marker.svg';
 import { Link } from 'react-router-dom';
 import { FiPlus, FiArrowRight } from 'react-icons/fi';
@@ -7,17 +7,26 @@ import '../styles/pages/orphanagesMap.css';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 import mapIcon from '../utils/mapIcon';
 import api from '../services/api';
+ 
+interface ListOrfanatos{
+    id:number,
+    latitude:number,
+    longitude:number,
+    nome:string
+}
 
 function Orfanatos() {
 
+    const [listOrfanatos,setOrfanatos] = useState<ListOrfanatos[]>([])
+
+    console.log(listOrfanatos)
+
     useEffect(()=>{
         api.get('orfanatos').then(
-            dado=>{
-                console.log(dado)
+            orfanato=>{
+               setOrfanatos(orfanato.data)
             }
-        ).catch(err=>{
-            console.log(err)
-        })
+        )
     },[])
 
     return (
@@ -45,19 +54,23 @@ function Orfanatos() {
 
                 <TileLayer url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_TOKENMAPBOX}`} />
                 
-    
+                {listOrfanatos.map(orf=>{
+                    return(
                     <Marker
-                        position={[-7.2272841, -39.3284248]}
+                        position={[orf.latitude, orf.longitude]}
                         icon={mapIcon}
                     >
                         <Popup closeButton={false} minWidth={240} maxWidth={240} className="map-popup">
-                           Lar doce lar
-                    <Link to={`orfanatos/1`}>
+                           {orf.nome}
+                    <Link to={`orfanatos/${orf.id}`}>
                                 <FiArrowRight size={20} color="#FFF" />
                             </Link>
                         </Popup>
     
                     </Marker>
+                    );
+                })}
+                    
                     
 
             </Map>
