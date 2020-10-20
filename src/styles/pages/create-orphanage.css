@@ -108,6 +108,10 @@ form.create-orphanage-form .input-block .new-image {
   align-items: center;
 }
 
+form.create-orphanage-form .input-block input[type=file]{
+  visibility: hidden;
+}
+
 form.create-orphanage-form .input-block .button-select {
   display: grid;
   grid-template-columns: 1fr 1fr;

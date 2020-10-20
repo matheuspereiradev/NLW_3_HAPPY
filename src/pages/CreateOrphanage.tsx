@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import { Map, Marker, TileLayer } from 'react-leaflet';
 
 import { FiPlus } from "react-icons/fi";
@@ -24,6 +24,10 @@ export default function CreateOrphanage() {
       latitude: lat,
       longitude: lng
     })
+  }
+
+  function handleSelectImages(event:ChangeEvent<HTMLInputElement>){
+    console.log(event.target.files)
   }
 
   function handleSubmit(event: FormEvent) {
@@ -94,11 +98,11 @@ export default function CreateOrphanage() {
               <label htmlFor="images">Fotos</label>
 
               <div className="images-container">
-                <label className="new-image">
+                <label htmlFor="images[]" className="new-image">
                   <FiPlus size={24} color="#15b6d6" />
                 </label>
               </div>
-            <input type="file" id="images[]"/>
+            <input multiple onChange={handleSelectImages} type="file" id="images[]"/>
 
             </div>
           </fieldset>
