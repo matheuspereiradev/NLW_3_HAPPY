@@ -2,7 +2,6 @@ import React, { ChangeEvent, FormEvent, useState } from "react";
 import { Map, Marker, TileLayer } from 'react-leaflet';
 
 import { FiPlus } from "react-icons/fi";
-import {FaTimes, FaTrashAlt} from "react-icons/fa"
 import { LeafletMouseEvent } from 'leaflet'
 
 import '../styles/pages/create-orphanage.css';
@@ -49,7 +48,7 @@ export default function CreateOrphanage() {
 
   async function handleSubmit(event: FormEvent) {
     
-
+   // const history = useHistory();
     event.preventDefault();//nao deixa o padrao
     const { latitude, longitude } = latitudeLongitude;
 
@@ -66,9 +65,18 @@ export default function CreateOrphanage() {
       dados.append('images',img)
     })
 
-    await api.post('orfanatos', dados)
+    try{
+      await api.post('orfanatos', dados)
 
-    alert('Enviou')
+      alert('Enviou')
+
+      
+     // history.push('/')
+    }catch(e){
+      alert('deu ruim')
+    }
+
+    
 
   }
 

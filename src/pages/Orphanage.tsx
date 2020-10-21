@@ -48,6 +48,8 @@ export default function Orphanage() {
       
   }  
 
+  
+
   return (
     <div id="page-orphanage">
       
@@ -55,10 +57,11 @@ export default function Orphanage() {
 
       <main>
         <div className="orphanage-details">
-          
-          <img src={orfanato.imagens[indexImage].url} alt={orfanato.nome} />
 
-          <div className="images">
+          {orfanato.imagens.length>0 && (
+            <div>
+            <img src={orfanato.imagens[indexImage].url} alt={orfanato.nome} />
+            <div className="images">
             {orfanato.imagens.map((img,index)=>{
               return(
                 <button 
@@ -74,6 +77,12 @@ export default function Orphanage() {
             })}
             
           </div>
+          </div>
+          )}
+          
+          
+
+          
           
           <div className="orphanage-details-content">
           <h1>{orfanato.nome}</h1>
