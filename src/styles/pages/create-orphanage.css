@@ -95,6 +95,34 @@ form.create-orphanage-form .input-block .images-container{
   grid-gap: 16px;
 }
 
+form.create-orphanage-form .input-block .images-container .imagem-orfanato {
+  display:inline-block;
+  position:relative;
+}
+form.create-orphanage-form .input-block .images-container .imagem-orfanato button {
+  position: relative;
+  top:0%;
+  left:100%;
+  
+  -webkit-transform:translate3d(-50%, -50%, 0);
+  -moz-transform:translate3d(-50%, -50%, 0);
+  transform:translate3d(-50%, -50%, 0);
+  background: #fdf0f5;
+  border: 1px solid #ffbcd4;
+  color: #ff669d;
+  font-size: 20px;
+  border-radius: 100%;
+  
+}
+
+
+form.create-orphanage-form .input-block .images-container img{
+  width: 100%;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
 form.create-orphanage-form .input-block .new-image {
 
   height: 96px;

@@ -2,12 +2,14 @@ import React, { ChangeEvent, FormEvent, useState } from "react";
 import { Map, Marker, TileLayer } from 'react-leaflet';
 
 import { FiPlus } from "react-icons/fi";
+import {FaTimes, FaTrashAlt} from "react-icons/fa"
 import { LeafletMouseEvent } from 'leaflet'
 
 import '../styles/pages/create-orphanage.css';
 import Sidebar from "../components/Sidebar";
 
 import mapIcon from '../utils/mapIcon'
+import api from "../services/api";
 
 export default function CreateOrphanage() {
 
@@ -17,6 +19,8 @@ export default function CreateOrphanage() {
   const [instrucoes, setInstrucoes] = useState('');
   const [abre_as, setHorario] = useState('');
   const [aberto_final_semana, setAbreFinalDeSemana] = useState(true);
+  const [imagens, setImagens] = useState<File[]>([]);
+  const [previewImg, setPreviewImg] = useState<string[]>([]);
 
   function mapClick(event: LeafletMouseEvent) {
     const { lat, lng } = event.latlng
@@ -26,14 +30,45 @@ export default function CreateOrphanage() {
     })
   }
 
+  
+
   function handleSelectImages(event:ChangeEvent<HTMLInputElement>){
-    console.log(event.target.files)
+    if(!event.target.files){
+      return;
+    }
+
+    const imagem = Array.from(event.target.files);
+    setImagens(imagem)
+
+    const imgPreview = imagem.map(img=>{
+      return URL.createObjectURL(img)
+    })
+
+    setPreviewImg(imgPreview)
   }
 
-  function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: FormEvent) {
+    
+
     event.preventDefault();//nao deixa o padrao
     const { latitude, longitude } = latitudeLongitude;
-    console.log(latitude, longitude, nome, sobre, instrucoes, abre_as, aberto_final_semana);
+
+    const dados = new FormData();
+    dados.append('nome',nome)
+    dados.append('sobre',sobre)
+    dados.append('instrucoes',instrucoes)
+    dados.append('aberto_final_semana', String(aberto_final_semana))
+    dados.append('abre_as', abre_as)
+    dados.append('latitude', String(latitude))
+    dados.append('longitude', String(longitude))
+
+    imagens.forEach(img =>{
+      dados.append('images',img)
+    })
+
+    await api.post('orfanatos', dados)
+
+    alert('Enviou')
 
   }
 
@@ -98,6 +133,14 @@ export default function CreateOrphanage() {
               <label htmlFor="images">Fotos</label>
 
               <div className="images-container">
+                {previewImg.map(imag=>{
+                  return(
+                      <img key={imag} src={imag} alt={nome} />
+                 
+                    
+                  )
+                })}
+
                 <label htmlFor="images[]" className="new-image">
                   <FiPlus size={24} color="#15b6d6" />
                 </label>
